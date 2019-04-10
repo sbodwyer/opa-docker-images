@@ -1,0 +1,9 @@
+FROM gcr.io/distroless/base
+
+COPY opa /opa
+
+ENTRYPOINT ["/opa"]
+
+CMD ["run", "--server",  "--log-level=debug" ]
+
+

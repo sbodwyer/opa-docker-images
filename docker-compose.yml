@@ -1,0 +1,36 @@
+version: '2'
+services:
+  opa:
+    build:
+      context: .
+      dockerfile: Dockerfile-opa
+    ports:
+      - 8181:8181
+    # command:
+    #   - "run"
+    #   - "--server"
+    #   - "--log-level=debug"
+    #   - "api_authz.rego"
+    # volumes:
+    #   - ./policy/api_authz.rego:/api_authz.rego
+
+    # image: openpolicyagent/opa:0.10.5
+    # ports:
+    #   - 8181:8181
+    # command:
+    #   - "run"
+    #   - "--server"
+    #   - "--log-level=debug"
+    #   - "api_authz.rego"
+    # volumes:
+    #   - ./policy/api_authz.rego:/api_authz.rego
+
+  api_server:
+    build:
+      context: .
+      dockerfile: Dockerfile-server
+    ports:
+      - 5000:5000
+    environment:
+      - OPA_ADDR=http://opa:8181
+      - POLICY_PATH=/v1/data/httpapi/authz
